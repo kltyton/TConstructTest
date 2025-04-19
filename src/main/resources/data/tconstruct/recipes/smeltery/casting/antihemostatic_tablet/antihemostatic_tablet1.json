@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "item": "test:frost_star"
+  },
+  "result": {
+    "amount": 90,
+    "fluid": "test:frost_star_fluid"
+  },
+  "temperature": 1200,
+  "time": 100
+}

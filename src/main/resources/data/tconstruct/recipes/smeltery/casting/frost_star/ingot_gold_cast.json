@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "tag": "tconstruct:casts/multi_use/ingot"
+  },
+  "fluid": {
+    "name": "tconstruct:molten_cobalt",
+    "amount": 90
+  },
+  "result": "test:frost_star",
+  "cooling_time": 100
+}

@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "item": "test:antihemostatic_tablet"
+  },
+  "result": {
+    "amount": 90,
+    "fluid": "test:antihemostatic_tablet_fluid"
+  },
+  "temperature": 1200,
+  "time": 100
+}

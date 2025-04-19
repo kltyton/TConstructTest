@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:material_fluid",
+  "fluid": {
+    "amount": 90,
+    "fluid": "test:antihemostatic_tablet_fluid"
+  },
+  "temperature": 800,
+  "output": "test:antihemostatic_tablet"
+}

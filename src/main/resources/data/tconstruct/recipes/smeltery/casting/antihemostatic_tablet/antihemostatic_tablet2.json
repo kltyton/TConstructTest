@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:material_fluid",
+  "fluid": {
+    "amount": 90,
+    "fluid": "test:frost_star_fluid"
+  },
+  "temperature": 800,
+  "output": "test:frost_star"
+}

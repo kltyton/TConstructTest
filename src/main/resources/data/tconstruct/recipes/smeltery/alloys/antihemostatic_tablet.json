@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:alloy",
+  "inputs": [
+    {
+      "amount": 450,
+      "tag": "forge:molten_manyullyn"
+    },
+    {
+      "amount": 500,
+      "tag": "forge:ender"
+    },
+    {
+      "amount": 450,
+      "tag": "tconstruct:molten_diamond"
+    }
+  ],
+  "result": {
+    "amount": 90,
+    "fluid": "test:frost_star_fluid"
+  },
+  "temperature": 1200
+}
