@@ -4,7 +4,7 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "name": "tconstruct:molten_cobalt",
+    "name": "test:frost_star_fluid",
     "amount": 90
   },
   "result": "test:frost_star",

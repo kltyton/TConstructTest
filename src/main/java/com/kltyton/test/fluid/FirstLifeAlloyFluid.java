@@ -1,4 +1,7 @@
 package com.kltyton.test.fluid;
 
-public class FirstLifeAlloyFluid {
+public abstract class FirstLifeAlloyFluid extends FrostStarFluid{
+    protected FirstLifeAlloyFluid(Properties properties) {
+        super(properties);
+    }
 }

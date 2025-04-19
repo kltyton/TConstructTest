@@ -1,4 +1,7 @@
 package com.kltyton.test.fluid;
 
-public class AntihemostaticTabletFluid {
+public abstract class AntihemostaticTabletFluid extends FrostStarFluid{
+    protected AntihemostaticTabletFluid(Properties properties) {
+        super(properties);
+    }
 }

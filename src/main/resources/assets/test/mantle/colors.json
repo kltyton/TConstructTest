@@ -1,0 +1,14 @@
+{
+  "modifier.test": {
+    "frost_stacks" : "#b1f2ff",
+    "antihemostatic_stacks" : "#b1f2ff",
+    "first_life_alloy_stacks" : "#38c088",
+    "ghost_alloy_stacks" : "#2f273c"
+  },
+  "material.test": {
+    "frost_star" : "#ffc2e0",
+    "antihemostatic_tablet" : "#ffc2e0",
+    "first_life_alloy" : "#38c088",
+    "ghost_alloy" : "#2f273c"
+  }
+}

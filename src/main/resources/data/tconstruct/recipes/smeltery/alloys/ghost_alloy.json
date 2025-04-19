@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:alloy",
+  "inputs": [
+    {
+      "amount": 270,
+      "fluid": "test:first_life_alloy_fluid"
+    },
+    {
+      "amount": 720,
+      "tag": "forge:ender"
+    },
+    {
+      "amount": 200,
+      "tag": "tconstruct:liquid_soul"
+    }
+  ],
+  "result": {
+    "amount": 90,
+    "fluid": "test:ghost_alloy_fluid"
+  },
+  "temperature": 1200
+}

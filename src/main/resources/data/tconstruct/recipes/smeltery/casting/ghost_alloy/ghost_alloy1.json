@@ -1,11 +1,11 @@
 {
   "type": "tconstruct:melting",
   "ingredient": {
-    "item": "test:frost_star"
+    "item": "test:ghost_alloy"
   },
   "result": {
     "amount": 90,
-    "fluid": "test:frost_star_fluid"
+    "fluid": "test:ghost_alloy_fluid"
   },
   "temperature": 1200,
   "time": 100

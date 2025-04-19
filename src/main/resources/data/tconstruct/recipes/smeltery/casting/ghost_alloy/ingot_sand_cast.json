@@ -7,7 +7,7 @@
   "cooling_time": 100,
   "fluid": {
     "amount": 90,
-    "name": "test:frost_star_fluid"
+    "name": "test:ghost_alloy_fluid"
   },
-  "result": "test:frost_star"
+  "result": "test:ghost_alloy"
 }

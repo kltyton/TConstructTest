@@ -1,0 +1,54 @@
+{
+  "fallbacks": [
+    "metal"
+  ],
+  "color": "38c088",
+  "luminosity": 0,
+  "generator": {
+    "transformer":
+    {      "type": "tconstruct:recolor_sprite",
+      "color_mapping": {
+        "type": "tconstruct:grey_to_color",
+        "palette": [
+          {
+            "grey": 0,
+            "color": "FF000000"
+          },
+          {
+            "grey": 63,
+            "color": "FF0E4929"
+          },
+          {
+            "grey": 102,
+            "color": "FF1A5A39"
+          },
+          {
+            "grey": 140,
+            "color": "FF263659"
+          },
+          {
+            "grey": 178,
+            "color": "FF304165"
+          },
+          {
+            "grey": 216,
+            "color": "FF40537D"
+          },
+          {
+            "grey": 255,
+            "color": "FF566B99"
+          }
+        ]
+      }
+    },
+    "supportedStats": [
+      "tconstruct:head",
+      "tconstruct:handle",
+      "tconstruct:extra",
+      "tconstruct:repair_kit",
+      "tconstruct:limb",
+      "tconstruct:grip"
+    ],
+    "ignoreMaterialStats": false
+  }
+}

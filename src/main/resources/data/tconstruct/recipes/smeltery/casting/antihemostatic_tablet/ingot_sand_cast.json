@@ -7,7 +7,7 @@
   "cooling_time": 100,
   "fluid": {
     "amount": 90,
-    "name": "test:frost_star_fluid"
+    "name": "test:antihemostatic_tablet_fluid"
   },
-  "result": "test:frost_star"
+  "result": "test:antihemostatic_tablet"
 }

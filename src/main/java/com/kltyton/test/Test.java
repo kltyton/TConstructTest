@@ -1,28 +1,28 @@
 package com.kltyton.test;
 
+import com.kltyton.test.fluid.*;
+import com.kltyton.test.modifiers.TestModifier;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,87 +32,229 @@ import org.slf4j.Logger;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Test.MODID)
 public class Test {
-
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "test";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "test" namespace
+
+    //注册器
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, MODID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "test" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "test" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "test:example_block", combining the namespace and path
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
-    // Creates a new BlockItem with the id "test:example_block", combining the namespace and path
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> FROST_STAR_ITEM = ITEMS.register("frost_star", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ANTIHEMOSTATIC_TABLET_ITEM = ITEMS.register("antihemostatic_tablet", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FIRST_LIFE_ALLOY_ITEM = ITEMS.register("first_life_alloy", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> GHOST_ALLOY_ITEM = ITEMS.register("ghost_alloy", () -> new Item(new Item.Properties()));
 
-    // Creates a new food item with the id "test:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    // Creates a creative tab with the id "test:example_tab" for the example item, that is placed after the combat tab
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> EXAMPLE_ITEM.get().getDefaultInstance()).displayItems((parameters, output) -> {
-        output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-    }).build());
+
+
+    // 流体类型注册
+    public static final RegistryObject<FluidType> FROST_STAR_FLUID_TYPE = FLUID_TYPES.register(
+            "frost_star_fluid",
+            () -> new FrostStarFluidType(FluidType.Properties.create()
+                    .density(1500)
+                    .viscosity(2000)
+                    .temperature(250)
+            )
+    );
+    public static final RegistryObject<FluidType> ANTIHEMOSTATIC_TABLET_FLUID_TYPE = FLUID_TYPES.register(
+            "antihemostatic_tablet_fluid",
+            () -> new AntihemostaticTabletFluidType(FluidType.Properties.create()
+                    .density(1500)
+                    .viscosity(2000)
+                    .temperature(250)
+            )
+    );
+    public static final RegistryObject<FluidType> FIRST_LIFE_ALLOY_FLUID_TYPE = FLUID_TYPES.register(
+            "first_life_alloy_fluid",
+            () -> new FirstLifeAlloyFluidType(FluidType.Properties.create()
+                    .density(1500)
+                    .viscosity(2000)
+                    .temperature(250)
+            )
+    );
+    public static final RegistryObject<FluidType> GHOST_ALLOY_FLUID_TYPE = FLUID_TYPES.register(
+            "ghost_alloy_fluid",
+            () -> new GhostAlloyFluidType(FluidType.Properties.create()
+                    .density(1500)
+                    .viscosity(2000)
+                    .temperature(250)
+            )
+    );
+
+    // 流体注册
+    public static final RegistryObject<FlowingFluid> FROST_STAR_FLUID = FLUIDS.register(
+            "frost_star_fluid",
+            () -> new FrostStarFluid.Source(Test.FROST_STAR_FLUID_PROPERTIES)
+    );
+
+    public static final RegistryObject<FlowingFluid> ANTIHEMOSTATIC_TABLET_FLUID = FLUIDS.register(
+            "antihemostatic_tablet_fluid",
+            () -> new AntihemostaticTabletFluid.Source(Test.ANTIHEMOSTATIC_TABLET_FLUID_PROPERTIES)
+    );
+    public static final RegistryObject<FlowingFluid> FIRST_LIFE_ALLOY_FLUID = FLUIDS.register(
+            "first_life_alloy_fluid",
+            () -> new FirstLifeAlloyFluid.Source(Test.FIRST_LIFE_ALLOY_FLUID_PROPERTIES)
+    );
+    public static final RegistryObject<FlowingFluid> GHOST_ALLOY_FLUID = FLUIDS.register(
+            "ghost_alloy_fluid",
+            () -> new GhostAlloyFluid.Source(Test.GHOST_ALLOY_FLUID_PROPERTIES)
+    );
+
+    //(流动中)
+    public static final RegistryObject<FlowingFluid> FLOWING_FROST_STAR_FLUID = FLUIDS.register(
+            "flowing_frost_star_fluid",
+            () -> new FrostStarFluid.Flowing(Test.FROST_STAR_FLUID_PROPERTIES)
+    );
+    public static final RegistryObject<FlowingFluid> FLOWING_ANTIHEMOSTATIC_TABLET_FLUID = FLUIDS.register(
+            "flowing_antihemostatic_tablet_fluid",
+            () -> new AntihemostaticTabletFluid.Flowing(Test.ANTIHEMOSTATIC_TABLET_FLUID_PROPERTIES)
+    );
+    public static final RegistryObject<FlowingFluid> FLOWING_FIRST_LIFE_ALLOY_FLUID = FLUIDS.register(
+            "flowing_first_life_alloy_fluid",
+            () -> new FirstLifeAlloyFluid.Flowing(Test.FIRST_LIFE_ALLOY_FLUID_PROPERTIES)
+    );
+    public static final RegistryObject<FlowingFluid> FLOWING_GHOST_ALLOY_FLUID = FLUIDS.register(
+            "flowing_ghost_alloy_fluid",
+            () -> new GhostAlloyFluid.Flowing(Test.GHOST_ALLOY_FLUID_PROPERTIES)
+    );
+
+    // 流体方块注册
+    public static final RegistryObject<LiquidBlock> FROST_STAR_FLUID_BLOCK = BLOCKS.register(
+            "frost_star_fluid_block",
+            () -> new LiquidBlock(Test.FROST_STAR_FLUID, Block.Properties.copy(Blocks.WATER))
+    );
+    public static final RegistryObject<LiquidBlock> ANTIHEMOSTATIC_TABLET_FLUID_BLOCK = BLOCKS.register(
+            "antihemostatic_tablet_fluid_block",
+            () -> new LiquidBlock(Test.ANTIHEMOSTATIC_TABLET_FLUID, Block.Properties.copy(Blocks.WATER))
+    );
+    public static final RegistryObject<LiquidBlock> FIRST_LIFE_ALLOY_FLUID_BLOCK = BLOCKS.register(
+            "first_life_alloy_fluid_block",
+            () -> new LiquidBlock(Test.FIRST_LIFE_ALLOY_FLUID, Block.Properties.copy(Blocks.WATER))
+    );
+    public static final RegistryObject<LiquidBlock> GHOST_ALLOY_FLUID_BLOCK = BLOCKS.register(
+            "ghost_alloy_fluid_block",
+            () -> new LiquidBlock(Test.GHOST_ALLOY_FLUID, Block.Properties.copy(Blocks.WATER))
+    );
+
+    // 桶物品注册
+    public static final RegistryObject<Item> FROST_STAR_BUCKET = ITEMS.register(
+            "frost_star_bucket",
+            () -> new BucketItem(Test.FROST_STAR_FLUID, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1))
+    );
+    public static final RegistryObject<Item> ANTIHEMOSTATIC_TABLET_BUCKET = ITEMS.register(
+            "antihemostatic_tablet_bucket",
+            () -> new BucketItem(Test.ANTIHEMOSTATIC_TABLET_FLUID, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1))
+    );
+    public static final RegistryObject<Item> FIRST_LIFE_ALLOY_BUCKET = ITEMS.register(
+            "first_life_alloy_bucket",
+            () -> new BucketItem(Test.FIRST_LIFE_ALLOY_FLUID, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1))
+    );
+    public static final RegistryObject<Item> GHOST_ALLOY_BUCKET = ITEMS.register(
+            "ghost_alloy_bucket",
+            () -> new BucketItem(Test.GHOST_ALLOY_FLUID, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1))
+    );
+
+    // 流体属性定义（需静态初始化）
+    public static final ForgeFlowingFluid.Properties FROST_STAR_FLUID_PROPERTIES =
+            new ForgeFlowingFluid.Properties(
+                    FROST_STAR_FLUID_TYPE,
+                    FROST_STAR_FLUID,
+                    FLOWING_FROST_STAR_FLUID
+            ).bucket(Test.FROST_STAR_BUCKET)
+                    .block(Test.FROST_STAR_FLUID_BLOCK);
+    // 流体属性定义（需静态初始化）
+    public static final ForgeFlowingFluid.Properties ANTIHEMOSTATIC_TABLET_FLUID_PROPERTIES =
+            new ForgeFlowingFluid.Properties(
+                    ANTIHEMOSTATIC_TABLET_FLUID_TYPE,
+                    ANTIHEMOSTATIC_TABLET_FLUID,
+                    FLOWING_ANTIHEMOSTATIC_TABLET_FLUID
+            ).bucket(Test.ANTIHEMOSTATIC_TABLET_BUCKET)
+                    .block(Test.ANTIHEMOSTATIC_TABLET_FLUID_BLOCK);
+    public static final ForgeFlowingFluid.Properties FIRST_LIFE_ALLOY_FLUID_PROPERTIES =
+            new ForgeFlowingFluid.Properties(
+                    FIRST_LIFE_ALLOY_FLUID_TYPE,
+                    FIRST_LIFE_ALLOY_FLUID,
+                    FLOWING_FIRST_LIFE_ALLOY_FLUID
+            ).bucket(Test.FIRST_LIFE_ALLOY_BUCKET)
+                    .block(Test.FIRST_LIFE_ALLOY_FLUID_BLOCK);
+    public static final ForgeFlowingFluid.Properties GHOST_ALLOY_FLUID_PROPERTIES =
+            new ForgeFlowingFluid.Properties(
+                    GHOST_ALLOY_FLUID_TYPE,
+                    GHOST_ALLOY_FLUID,
+                    FLOWING_GHOST_ALLOY_FLUID
+            ).bucket(Test.GHOST_ALLOY_BUCKET)
+                    .block(Test.GHOST_ALLOY_FLUID_BLOCK);
+
+    // 为示例项目创建一个 ID 为“test：example_tab”的创意选项卡，该选项卡位于 battle 选项卡之后
+    public static final RegistryObject<CreativeModeTab> TEST_TAB = CREATIVE_MODE_TABS.register("test_tab", () ->
+            CreativeModeTab.builder()
+                    .title(Component.translatable("item_group.test_tab")) // 使用翻译键
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> FROST_STAR_ITEM.get().getDefaultInstance())
+                    .displayItems((parameters, output) -> {
+                        output.accept(FROST_STAR_ITEM.get());
+                        output.accept(ANTIHEMOSTATIC_TABLET_ITEM.get());
+                        output.accept(FIRST_LIFE_ALLOY_ITEM.get());
+                        output.accept(GHOST_ALLOY_ITEM.get());
+                    })
+                    .build()
+    );
+
+
+
+
 
     public Test() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
-        // Register the Deferred Register to the mod event bus so blocks get registered
-        BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
+        BLOCKS.register(modEventBus); // 新增
+        FLUIDS.register(modEventBus); // 新增
+        FLUID_TYPES.register(modEventBus); // 新增
         ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
+        // 将 Deferred Register 注册到 mod 事件总线，以便注册选项卡
         CREATIVE_MODE_TABS.register(modEventBus);
+        TestModifier.MODIFIERS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
-
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
 
-        if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
 
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-    }
 
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(EXAMPLE_BLOCK_ITEM);
-    }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
     }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ModEvents {
+        @SubscribeEvent
+        public static void gatherData(final GatherDataEvent event) {
+            DataGenerator gen = event.getGenerator();
+            ExistingFileHelper fileHelper = event.getExistingFileHelper();
+            if (event.includeClient()) {
+            }
+            if (event.includeServer()) {
+            }
+        }
+        @SubscribeEvent
+        public static void onSetup(FMLClientSetupEvent event) {
+        }
+    }
+    // 您可以使用 EventBusSubscriber 自动注册带有 @SubscribeEvent 注释的类中的所有静态方法
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
-
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+/*            event.enqueueWork(() -> {
+                // 注册流体渲染
+                IClientFluidTypeExtensions clientProperties = IClientFluidTypeExtensions.of(FROST_STAR_FLUID_TYPE.get());
+                Minecraft.getInstance().getBlockColors().register((state, world, pos, tintIndex) ->
+                        clientProperties.getTintColor(), FROST_STAR_FLUID_BLOCK.get());
+            });*/
         }
     }
 }

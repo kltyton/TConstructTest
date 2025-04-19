@@ -1,6 +1,8 @@
 {
-  "craftable": true,
-  "tier": 4,
-  "sortOrder": 2,
-  "hidden": false
+  "default": [
+    {
+      "name": "test:first_life_alloy_stacks",
+      "level": 1
+    }
+  ]
 }

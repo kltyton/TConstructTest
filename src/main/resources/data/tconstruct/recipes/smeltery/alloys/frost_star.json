@@ -1,23 +1,22 @@
 {
-  "type": "tconstruct:smeltery",
-  "temperature": 1200,
-  "ingredients": [
+  "type": "tconstruct:alloy",
+  "inputs": [
     {
-      "item": "tconstruct:malachite_spirit_ingot",
-      "count": 5
+      "amount": 450,
+      "tag": "forge:molten_manyullyn"
     },
     {
-      "item": "minecraft:ender_pearl",
-      "count": 2
+      "amount": 500,
+      "tag": "forge:ender"
     },
     {
-      "item": "minecraft:potion",
-      "nbt": "{Potion:\"minecraft:slowness\"}",
-      "count": 4
+      "amount": 450,
+      "tag": "tconstruct:molten_diamond"
     }
   ],
   "result": {
-    "item": "test:frost_star",
-    "count": 1
-  }
+    "amount": 90,
+    "fluid": "test:frost_star_fluid"
+  },
+  "temperature": 1200
 }

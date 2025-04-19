@@ -7,9 +7,9 @@ import net.minecraftforge.fluids.FluidType;
 
 import java.util.function.Consumer;
 
-public class FirstLifeAlloyFluidType extends FluidType {
+public class GhostAlloyFluidType extends FluidType {
 
-    public FirstLifeAlloyFluidType(Properties properties) {
+    public GhostAlloyFluidType(Properties properties) {
         super(properties);
     }
     @Override
@@ -26,7 +26,7 @@ public class FirstLifeAlloyFluidType extends FluidType {
             }
             @Override
             public int getTintColor() {
-                return 0xffffc2e0;
+                return 0xff2f273c;
             }
         });
     }

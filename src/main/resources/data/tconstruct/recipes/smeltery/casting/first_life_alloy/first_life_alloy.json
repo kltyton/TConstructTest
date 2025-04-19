@@ -1,9 +1,9 @@
 {
   "type": "tconstruct:material",
   "ingredient": {
-    "item": "test:antihemostatic_tablet"
+    "item": "test:first_life_alloy"
   },
-  "material": "test:antihemostatic_tablet",
+  "material": "test:first_life_alloy",
   "needed": 1,
   "value": 1
 }

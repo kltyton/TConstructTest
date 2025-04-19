@@ -1,11 +1,11 @@
 {
   "type": "tconstruct:melting",
   "ingredient": {
-    "item": "test:antihemostatic_tablet"
+    "item": "test:first_life_alloy"
   },
   "result": {
     "amount": 90,
-    "fluid": "test:antihemostatic_tablet_fluid"
+    "fluid": "test:first_life_alloy_fluid"
   },
   "temperature": 1200,
   "time": 100

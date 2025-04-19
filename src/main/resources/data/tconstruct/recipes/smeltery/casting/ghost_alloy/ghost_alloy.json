@@ -1,9 +1,9 @@
 {
   "type": "tconstruct:material",
   "ingredient": {
-    "item": "test:frost_star"
+    "item": "test:ghost_alloy"
   },
-  "material": "test:frost_star",
+  "material": "test:ghost_alloy",
   "needed": 1,
   "value": 1
 }
